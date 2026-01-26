@@ -46,7 +46,7 @@ This terraform configuration ensures it can apply OIDC permissions for `iac-terr
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | ~> 6.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.28.0 |
 
 ## Modules
 
@@ -58,10 +58,10 @@ No modules.
 |------|------|
 | [aws_iam_openid_connect_provider.github](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_openid_connect_provider) | resource |
 | [aws_iam_role.oidc_roles](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.oidc_roles_app_aws_java1_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role.oidc_roles_java1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
-| [aws_iam_role_policy.oidc_policy_aws_java1_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
-| [aws_iam_role_policy.oidc_policy_java1](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role.oidc_roles_app_aws_jvx_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role.oidc_roles_infra_jvx](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) | resource |
+| [aws_iam_role_policy.oidc_policy_aws_jvx_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
+| [aws_iam_role_policy.oidc_policy_infra_jvx](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 | [aws_iam_role_policy.oidc_policy_oidc](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy) | resource |
 
 ## Inputs
@@ -72,8 +72,9 @@ No modules.
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region | `string` | n/a | yes |
 | <a name="input_business_division"></a> [business\_division](#input\_business\_division) | Business Division | `string` | n/a | yes |
 | <a name="input_github_org"></a> [github\_org](#input\_github\_org) | GitHub Organization | `string` | n/a | yes |
-| <a name="input_github_repo"></a> [github\_repo](#input\_github\_repo) | GitHub Repository | `string` | n/a | yes |
-| <a name="input_github_repo_artifacts"></a> [github\_repo\_artifacts](#input\_github\_repo\_artifacts) | GitHub Repository | `string` | n/a | yes |
+| <a name="input_github_repo_artifacts_jvx"></a> [github\_repo\_artifacts\_jvx](#input\_github\_repo\_artifacts\_jvx) | GitHub Repository | `string` | n/a | yes |
+| <a name="input_github_repo_core"></a> [github\_repo\_core](#input\_github\_repo\_core) | GitHub Repository | `string` | n/a | yes |
+| <a name="input_github_repo_infra_jvx"></a> [github\_repo\_infra\_jvx](#input\_github\_repo\_infra\_jvx) | GitHub Repository | `string` | n/a | yes |
 
 ## Outputs
 
