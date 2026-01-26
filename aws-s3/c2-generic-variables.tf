@@ -33,7 +33,7 @@ variable "bucket_name_s3backend" {
   type        = string
 }
 
-variable "bucket_name_artifacts" {
+variable "bucket_name_s3artifacts" {
   description = "Name prefix of the S3 bucket."
   type        = string
 }

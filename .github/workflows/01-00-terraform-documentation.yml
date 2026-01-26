@@ -16,11 +16,8 @@ jobs:
       matrix:
         #dir: ["module-a", "module-b", "modules/module-c"]
         dir: [
-          # Core
           "aws-oidc",
-          "aws-s3",
-          # Infrastructure
-          "infra-java-app1"
+          "aws-s3"
           ]
     steps:
       - uses: actions/checkout@v3
