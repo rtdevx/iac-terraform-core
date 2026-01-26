@@ -62,7 +62,6 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx_s3" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
-
         ]
 
         Resource = [
