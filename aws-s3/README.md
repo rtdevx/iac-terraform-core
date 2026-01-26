@@ -134,7 +134,7 @@ No resources.
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | AWS Account ID used to construct role ARNs | `string` | `"390157243794"` | no |
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region | `string` | n/a | yes |
-| <a name="input_bucket_name_artifacts"></a> [bucket\_name\_artifacts](#input\_bucket\_name\_artifacts) | Name prefix of the S3 bucket. | `string` | n/a | yes |
+| <a name="input_bucket_name_s3artifacts"></a> [bucket\_name\_s3artifacts](#input\_bucket\_name\_s3artifacts) | Name prefix of the S3 bucket. | `string` | n/a | yes |
 | <a name="input_bucket_name_s3backend"></a> [bucket\_name\_s3backend](#input\_bucket\_name\_s3backend) | Name prefix of the S3 backend bucket. | `string` | n/a | yes |
 | <a name="input_business_division"></a> [business\_division](#input\_business\_division) | Business Division | `string` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment | `string` | n/a | yes |
