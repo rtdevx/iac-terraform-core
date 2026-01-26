@@ -16,7 +16,7 @@ locals {
 
     # NOTE: OIDC
     main = {
-      name    = "iac-aws-oidcRole-app-aws-jvx-artifacts"
+      name    = "iac-aws-oidcRole-app-jvx-artifacts"
       subject = "repo:${var.github_org}/${var.github_repo_artifacts_jvx}:ref:refs/heads/main"
     }
 

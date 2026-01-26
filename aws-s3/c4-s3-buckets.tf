@@ -9,9 +9,9 @@ module "s3_backends" {
   # Set allowed principals for GitHub Actions to access S3 Backends
   allowed_principals = [
     "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-oidc",
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-jvx-dev",
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-jvx-stag",
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-jvx-prod"
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-dev",
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-stag",
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-prod"
   ]
 
   tags = local.common_tags
@@ -29,11 +29,11 @@ module "s3_artifacts" {
   # Set allowed principals for jvx application's GitHub Actions to access S3 Artifacts (dev/stag/prod)
   allowed_principals = [
     # INFO: app-aws can access S3 artifacts
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-app-aws-jvx-artifacts",
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-app-jvx-artifacts",
     # INFO: Infrastructure can access S3 artifacts
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-jvx-dev",
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-jvx-stag",
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-jvx-prod"
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-dev",
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-stag",
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-prod"
   ]
 
   tags = local.common_tags
