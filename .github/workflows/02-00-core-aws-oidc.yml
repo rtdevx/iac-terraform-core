@@ -1,0 +1,58 @@
+name: 02-00-CORE-AWS-OIDC
+
+# NOTE: Fetch AWS Credentials
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  push:
+    branches:
+      - main
+  workflow_dispatch:      
+permissions:
+  id-token: write
+  contents: read
+  
+env:
+  WORKDIR: "./aws-oidc"  # NOTE: Define WORKDIR. If not defined here and reused at steps, scheduler may not trigger.
+  TERRAFORM_VERSION: "1.13.5"
+  TF_COMMAND: "apply"
+  #TF_COMMAND: "destroy"
+  
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  terraform-core-oidc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::390157243794:role/iac-aws-oidcRole-oidc
+          aws-region: eu-west-2
+
+# NOTE: Deploy Terraform
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+# NOTE: Terraform Init / Plan / Apply
+      - name: Terraform Init
+        working-directory: ${{ env.WORKDIR }}
+        run: terraform init -input=false
+
+      - name: Terraform Plan
+        working-directory: ${{ env.WORKDIR }} 
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: ${{ env.WORKDIR }} 
+        run: terraform $TF_COMMAND -auto-approve
