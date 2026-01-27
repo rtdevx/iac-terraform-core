@@ -12,11 +12,11 @@
 locals {
   # NOTE: Declare locals for OIDC roles
 
-  oidc_roles_app_aws_jvx_s3 = {
+  oidc_roles_app_aws_jvx = {
 
     # NOTE: OIDC
     main = {
-      name    = "iac-aws-oidcRole-app-jvx-artifacts"
+      name    = "iac-aws-oidcRole-app-jvx"
       subject = "repo:${var.github_org}/${var.github_repo_artifacts_jvx}:ref:refs/heads/main"
     }
 
@@ -24,8 +24,8 @@ locals {
 }
 
 # NOTE: Create IAM Role for OIDC (environment-specific)
-resource "aws_iam_role" "oidc_roles_app_aws_jvx_s3" {
-  for_each = local.oidc_roles_app_aws_jvx_s3
+resource "aws_iam_role" "oidc_roles_app_aws_jvx" {
+  for_each = local.oidc_roles_app_aws_jvx
 
   name = each.value.name
   assume_role_policy = jsonencode({
@@ -47,11 +47,11 @@ resource "aws_iam_role" "oidc_roles_app_aws_jvx_s3" {
 
 # NOTE: Attach IAM policy to IAM role
 
-resource "aws_iam_role_policy" "oidc_policy_aws_jvx_s3" {
-  for_each = local.oidc_roles_app_aws_jvx_s3
+resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
+  for_each = local.oidc_roles_app_aws_jvx
 
   name = "${each.value.name}-policy"
-  role = aws_iam_role.oidc_roles_app_aws_jvx_s3[each.key].name
+  role = aws_iam_role.oidc_roles_app_aws_jvx[each.key].name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -86,7 +86,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx_s3" {
           "autoscaling:StartInstanceRefresh"
         ]
 
-        Resource = "arn:aws:ssm:eu-west-2:${var.aws_account_id}::autoScalingGroup:*"
+        Resource = "arn:aws:ssm:eu-west-2:${var.aws_account_id}::autoScalingGroup:*:autoScalingGroupName/Operations-dev-asg"
       }
 
     ]
