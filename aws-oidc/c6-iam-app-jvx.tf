@@ -77,7 +77,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx_s3" {
           "ssm:PutParameter"
         ]
 
-        Resource = "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/java-app1/version"
+        Resource = "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/jvx/version"
       },
       # NOTE: Allow GitHub Actions to autoscaling:StartInstanceRefresh in app-aws repository
       {
