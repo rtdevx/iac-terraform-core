@@ -62,6 +62,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
+          "s3:DeleteObject",  # Required by `app-aws` GH Actions to clear artifacts bucket
         ]
 
         Resource = [
