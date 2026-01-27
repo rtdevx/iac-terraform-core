@@ -29,7 +29,7 @@ module "s3_artifacts" {
   # Set allowed principals for jvx application's GitHub Actions to access S3 Artifacts (dev/stag/prod)
   allowed_principals = [
     # INFO: app-aws can access S3 artifacts
-    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-app-jvx-artifacts",
+    "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-app-jvx",
     # INFO: Infrastructure can access S3 artifacts
     "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-dev",
     "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-infra-jvx-stag",
