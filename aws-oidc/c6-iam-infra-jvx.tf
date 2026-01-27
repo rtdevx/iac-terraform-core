@@ -186,6 +186,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "elasticloadbalancing:DeleteTargetGroup",  # Required to delete LB
           "elasticloadbalancing:ModifyTargetGroup",  # Required to Modify Target Group only. TO BE COMMENTED OUT.
           "elasticloadbalancing:ModifyListener",     # Required to Modify Target Group only. TO BE COMMENTED OUT.
+          "elasticloadbalancing:ModifyRule",         # Required to Modify Target Group only. TO BE COMMENTED OUT. 
           # ASG
           "autoscaling:CreateAutoScalingGroup",
           "autoscaling:DescribeScalingActivities",
