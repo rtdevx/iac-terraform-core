@@ -149,7 +149,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DisassociateAddress",                  # Required to perform DESTROY
           "ec2:DeleteLaunchTemplate",                 # Required to perform DESTROY
           "ec2:DescribeNetworkInterfaces",            # Required to perform DESTROY
-          "ec2:DeleteRoute",                          # Required to perform DESTROY      
+          "ec2:DeleteRoute",                          # Required to perform DESTROY
           "ec2:DisassociateRouteTable",               # Required to perform DESTROY
           "ec2:DeleteSecurityGroup",                  # Required to perform DESTROY
           "ec2:DeleteNatGateway",                     # Required to perform DESTROY
