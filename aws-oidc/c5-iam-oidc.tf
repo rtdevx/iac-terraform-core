@@ -89,9 +89,9 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "iam:ListRolePolicies",
         "iam:GetRolePolicy",
         "iam:ListAttachedRolePolicies",
-        "iam:ListAttachedGroupPolicies",       # Required to modify Groups
-        "iam:AttachGroupPolicy",               # Required to modify Groups
-        "iam:DetachGroupPolicy",               # Required to modify Groups 
+        "iam:ListAttachedGroupPolicies",       # Required to modify IAM Groups
+        "iam:AttachGroupPolicy",               # Required to modify IAM Groups
+        "iam:DetachGroupPolicy",               # Required to modify IAM Groups 
         "iam:PutRolePolicy",
         "iam:DeleteRolePolicy",
         "iam:CreateRole",
