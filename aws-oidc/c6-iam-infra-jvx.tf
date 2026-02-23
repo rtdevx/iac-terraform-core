@@ -220,6 +220,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:AttachGroupPolicy",
           "iam:ListAttachedGroupPolicies",
           "iam:DetachGroupPolicy",
+          "iam:AttachRolePolicy",
+          "iam:CreateInstanceProfile",
+          "iam:PutRolePolicy",
+          "iam:PutRolePolicy",
+          "iam:PutRolePolicy",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
