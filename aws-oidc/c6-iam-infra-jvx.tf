@@ -234,6 +234,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:RemoveRoleFromInstanceProfile",
           "iam:DeleteInstanceProfile",
           "iam:ListInstanceProfilesForRole",
+          "iam:DeleteRole",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
