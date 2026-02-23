@@ -233,6 +233,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:DetachRolePolicy",                    # Required to delete IAM roles for SSM access
           "iam:RemoveRoleFromInstanceProfile",
           "iam:DeleteInstanceProfile",
+          "iam:ListInstanceProfilesForRole",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
