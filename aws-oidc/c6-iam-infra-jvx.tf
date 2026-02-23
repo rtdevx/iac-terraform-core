@@ -219,6 +219,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:DeletePolicy",
           "iam:AttachGroupPolicy",
           "iam:ListAttachedGroupPolicies",
+          "iam:DetachGroupPolicy",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
