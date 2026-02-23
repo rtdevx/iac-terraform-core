@@ -208,7 +208,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "autoscaling:DetachLoadBalancerTargetGroups",
           "autoscaling:StartInstanceRefresh",
           # IAM
-          "iam:CreateRole",                          # Required to create IAM roles for SSM access
+          "iam:CreateRole",                          # Required to create IAM roles for SSM access 
+          "iam:GetRole",                             # Required to create IAM roles for SSM access
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
