@@ -212,6 +212,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:GetRole",                             # Required to create IAM roles for SSM access
           "iam:ListRolePolicies",                    # Required to create IAM roles for SSM access
           "iam:ListAttachedRolePolicies",
+          "iam:CreatePolicy",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
