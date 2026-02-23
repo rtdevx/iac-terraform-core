@@ -211,27 +211,27 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:CreateRole",                          # Required to create IAM roles for SSM access 
           "iam:GetRole",                             # Required to create IAM roles for SSM access
           "iam:ListRolePolicies",                    # Required to create IAM roles for SSM access
-          "iam:ListAttachedRolePolicies",
-          "iam:CreatePolicy",
-          "iam:GetPolicy",
-          "iam:GetPolicyVersion",
-          "iam:ListPolicyVersions",
-          "iam:DeletePolicy",
-          "iam:AttachGroupPolicy",
-          "iam:ListAttachedGroupPolicies",
-          "iam:DetachGroupPolicy",
-          "iam:AttachRolePolicy",
-          "iam:CreateInstanceProfile",
-          "iam:PutRolePolicy",
-          "iam:PutRolePolicy",
-          "iam:PutRolePolicy",
-          "iam:GetInstanceProfile",
-          "iam:GetRolePolicy",
-          "iam:DeleteRolePolicy",
-          "iam:AddRoleToInstanceProfile",
-          "iam:PassRole",
-
-          "iam:DetachRolePolicy",
+          "iam:ListAttachedRolePolicies",            # Required to create IAM roles for SSM access
+          "iam:CreatePolicy",                        # Required to create IAM roles for SSM access
+          "iam:GetPolicy",                           # Required to create IAM roles for SSM access
+          "iam:GetPolicyVersion",                    # Required to create IAM roles for SSM access 
+          "iam:ListPolicyVersions",                  # Required to create IAM roles for SSM access
+          "iam:DeletePolicy",                        # Required to create IAM roles for SSM access       
+          "iam:AttachGroupPolicy",                   # Required to create IAM roles for SSM access
+          "iam:ListAttachedGroupPolicies",           # Required to create IAM roles for SSM access
+          "iam:DetachGroupPolicy",                   # Required to create IAM roles for SSM access
+          "iam:AttachRolePolicy",                    # Required to create IAM roles for SSM access
+          "iam:CreateInstanceProfile",               # Required to create IAM roles for SSM access 
+          "iam:PutRolePolicy",                       # Required to create IAM roles for SSM access
+          "iam:PutRolePolicy",                       # Required to create IAM roles for SSM access 
+          "iam:PutRolePolicy",                       # Required to create IAM roles for SSM access
+          "iam:GetInstanceProfile",                  # Required to create IAM roles for SSM access   
+          "iam:GetRolePolicy",                       # Required to create IAM roles for SSM access
+          "iam:DeleteRolePolicy",                    # Required to create IAM roles for SSM access 
+          "iam:AddRoleToInstanceProfile",            # Required to create IAM roles for SSM access   
+          "iam:PassRole",                            # Required to create IAM roles for SSM access
+          "iam:DetachRolePolicy",                    # Required to delete IAM roles for SSM access
+          "iam:RemoveRoleFromInstanceProfile",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
