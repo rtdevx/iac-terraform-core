@@ -227,6 +227,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:PutRolePolicy",
           "iam:GetInstanceProfile",
           "iam:GetRolePolicy",
+          "iam:DeleteRolePolicy",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
