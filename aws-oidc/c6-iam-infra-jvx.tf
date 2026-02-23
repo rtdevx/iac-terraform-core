@@ -217,6 +217,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:GetPolicyVersion",
           "iam:ListPolicyVersions",
           "iam:DeletePolicy",
+          "iam:AttachGroupPolicy",
           # ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
