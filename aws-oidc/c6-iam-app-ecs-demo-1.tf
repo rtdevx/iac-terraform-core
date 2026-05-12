@@ -17,7 +17,7 @@ locals {
     # NOTE: OIDC
     main = {
       name    = "iac-aws-oidcRole-app-ecs-demo-1"
-      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:ref:refs/heads/main"
+      subject = "repo:${var.github_org}/${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:ref:refs/heads/main"
     }
 
   }
