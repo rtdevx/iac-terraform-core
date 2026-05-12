@@ -21,6 +21,11 @@ variable "github_org" {
   type        = string
 }
 
+variable "github_org_aws_apps" {
+  description = "GitHub Organization - rtdevx-aws-apps"
+  type        = string
+}
+
 # NOTE: Repos
 
 variable "github_repo_core" {
@@ -35,5 +40,10 @@ variable "github_repo_infra_jvx" {
 
 variable "github_repo_artifacts_jvx" {
   description = "GitHub Repository"
+  type        = string
+}
+
+variable "github_repo_ecs_demo_1" {
+  description = "GitHub Repository - rtdevx-aws-apps/ecs-demo-1"
   type        = string
 }

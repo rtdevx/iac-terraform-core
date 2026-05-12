@@ -62,7 +62,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
-          "s3:DeleteObject",  # Required by `app-aws` GH Actions to clear artifacts bucket
+          "s3:DeleteObject", # Required by `app-aws` GH Actions to clear artifacts bucket
         ]
 
         Resource = [
@@ -71,7 +71,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "arn:aws:s3:::rk-artifact/*",
         ]
       },
-      # NOTE: Allow GitHub Actions to ssm:PutParameter in app-aws repository
+      # NOTE: Allow GitHub Actions to ssm:PutParameter in SSM Parameter store to update jvx version
       {
         Effect = "Allow",
         Action = [
@@ -91,7 +91,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-dev-jvx-asg",
           "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-stag-jvx-asg",
           "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-prod-jvx-asg"
-          ]
+        ]
       }
 
     ]

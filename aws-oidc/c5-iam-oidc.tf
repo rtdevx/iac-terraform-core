@@ -89,9 +89,9 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "iam:ListRolePolicies",
         "iam:GetRolePolicy",
         "iam:ListAttachedRolePolicies",
-        "iam:ListAttachedGroupPolicies",       # Required to modify IAM Groups
-        "iam:AttachGroupPolicy",               # Required to modify IAM Groups
-        "iam:DetachGroupPolicy",               # Required to modify IAM Groups 
+        "iam:ListAttachedGroupPolicies", # Required to modify IAM Groups
+        "iam:AttachGroupPolicy",         # Required to modify IAM Groups
+        "iam:DetachGroupPolicy",         # Required to modify IAM Groups 
         "iam:PutRolePolicy",
         "iam:DeleteRolePolicy",
         "iam:CreateRole",
@@ -112,7 +112,7 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         # Allow read access to IAM roles/policies that match iac-aws-oidcRole-* in this account
         "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-*",
         "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com", # Required by iam:GetOpenIDConnectProvider
-        "arn:aws:iam::${var.aws_account_id}:group/admin"        
+        "arn:aws:iam::${var.aws_account_id}:group/admin"
       ]
 
     }]
