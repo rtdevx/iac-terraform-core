@@ -79,14 +79,12 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
           "ecr:InitiateLayerUpload",
           "ecr:PutImage",
           "ecr:UploadLayerPart",
-          "ecr:GetAuthorizationToken" # NOTE: ADDED
+          "ecr:GetAuthorizationToken"
         ]
 
         Resource = [
-          #"arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/*"
-          #"arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
-          "arn:aws:ecr:*:${var.aws_account_id}:repository/*"
-          #"*"
+          "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
+
         ]
       }
 
