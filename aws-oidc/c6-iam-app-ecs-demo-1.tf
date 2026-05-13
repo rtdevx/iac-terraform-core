@@ -62,7 +62,7 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
           # Required to update Task Definition on task-definition resource 
           "ecs:RegisterTaskDefinition",
           "ecs:DescribeTaskDefinition",          
-          # Required to update Service on cluster resource
+          # Required to update the Service in the cluster
           "ecs:UpdateService", 
           "ecs:DescribeServices"
         ]
@@ -70,7 +70,8 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         Resource = [
           # Scoped to a single Task Definition at the moment for the demo purposes
           "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
-          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate"
+          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:service/ecs-fargate/ecs-nginx-app1-cicd-svc-*"
+          #"arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate"
         ]
       },
       # NOTE: Allow iam:passrole to ecsTaskExecutionRole
