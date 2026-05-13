@@ -84,8 +84,8 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
 
         Resource = [
           #"arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/*"
-          #"arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
-          "*"
+          "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
+          #"*"
         ]
       }
 
