@@ -112,7 +112,7 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
 
       This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR. 
       
-      "ecr:GetAuthorizationToken" is required to be scoped on "*" resource.
+      # ! "ecr:GetAuthorizationToken" is required to be scoped on "*" resource.
       **/      
       {
         Effect = "Allow",
