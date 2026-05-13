@@ -86,7 +86,7 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         ]
       },
       # NOTE: ecr:GetAuthorizationToken is a global ECR action and cannot be scoped to a repository ARN. 
-      # HACK: This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR
+      # NOTE: This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR
       {
         Effect = "Allow",
         Action = [
