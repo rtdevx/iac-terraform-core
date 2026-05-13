@@ -66,7 +66,6 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         ]
 
         Resource = [
-          #"arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/*"          
           "arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate"
         ]
       },
@@ -78,15 +77,26 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
           "ecr:CompleteLayerUpload",
           "ecr:InitiateLayerUpload",
           "ecr:PutImage",
-          "ecr:UploadLayerPart",
-          "ecr:GetAuthorizationToken"
+          "ecr:UploadLayerPart"
         ]
 
         Resource = [
           "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
 
         ]
-      }
+      },
+      # NOTE: ecr:GetAuthorizationToken is a global ECR action and cannot be scoped to a repository ARN. 
+      # HACK: This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ]
+
+        Resource = [
+          "*"
+        ]
+      }      
 
     ]
   })
