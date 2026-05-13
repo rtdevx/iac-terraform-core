@@ -71,7 +71,6 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
           # Scoped to a single Task Definition at the moment for the demo purposes
           "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
           "arn:aws:ecs:eu-central-1:${var.aws_account_id}:service/ecs-fargate/ecs-nginx-app1-cicd-svc-*"
-          #"arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate"
         ]
       },
       # NOTE: Allow iam:passrole to ecsTaskExecutionRole
@@ -113,7 +112,7 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
 
       This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR. 
       
-      # ! "ecr:GetAuthorizationToken" is required to be scoped on "*" resource.
+      # ! "ecr:GetAuthorizationToken" is required to be scoped on "*" resource. Can it be scoped to "ecr:*" and "ecs:*"?
       **/      
       {
         Effect = "Allow",
