@@ -66,7 +66,8 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         ]
 
         Resource = [
-          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate"
+          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate",
+          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*"
         ]
       },
       # NOTE: Allow GitHub Actions permissions to push the image to ECR.
