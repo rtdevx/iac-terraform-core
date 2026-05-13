@@ -59,17 +59,38 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
       {
         Effect = "Allow",
         Action = [
+          # Required to update Task Definition on task-definition resource 
           "ecs:RegisterTaskDefinition",
-          "ecs:UpdateService",
-          "ecs:DescribeServices",
-          "ecs:DescribeTaskDefinition"
+          "ecs:DescribeTaskDefinition",          
+          # Required to update Service on cluster resource
+          "ecs:UpdateService", 
+          "ecs:DescribeServices"
         ]
 
         Resource = [
-          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate",
-          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*"
+          # Scoped to a single Task Definition at the moment for the demo purposes
+          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
+          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:cluster/ecs-fargate"
         ]
       },
+      # NOTE: Allow iam:passrole to ecsTaskExecutionRole
+      /**
+      A task execution IAM role is used by the container agent to make AWS API requests on your behalf.
+
+      "ecsTaskExecutionRole" is defined in IAM and is part of the ECS Task Definition:
+
+      Infrastructure requirements -> Task roles - conditional -> Task execution role
+      **/          
+      {
+        Effect = "Allow",
+        Action = [
+          "iam:PassRole" 
+        ]
+
+        Resource = [
+          "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
+        ]
+      },      
       # NOTE: Allow GitHub Actions permissions to push the image to ECR.
       {
         Effect = "Allow",
@@ -83,11 +104,16 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
 
         Resource = [
           "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
-
         ]
       },
-      # NOTE: ecr:GetAuthorizationToken is a global ECR action and cannot be scoped to a repository ARN. 
-      # NOTE: This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR
+      # NOTE: Allow GitHub Actions to get "ecr:GetAuthorizationToken".
+      /**
+      "ecr:GetAuthorizationToken" is a global ECR action and cannot be scoped to a repository ARN.
+
+      This prevents "GitHubActions is not authorized to perform: ecr:GetAuthorizationToken on resource: * because no identity-based policy allows the ecr:GetAuthorizationToken action" ERROR. 
+      
+      "ecr:GetAuthorizationToken" is required to be scoped on "*" resource.
+      **/      
       {
         Effect = "Allow",
         Action = [
