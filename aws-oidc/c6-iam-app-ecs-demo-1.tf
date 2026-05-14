@@ -135,7 +135,7 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         Effect = "Allow",
         Action = [
           "ecr:DescribeImages",
-
+          "ecr:BatchDeleteImage"
         ]
 
         Resource = [
