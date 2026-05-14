@@ -15,10 +15,20 @@ locals {
   oidc_roles_app_ecs_demo_1 = {
 
     # NOTE: OIDC
-    main = {
+    main = { # ! MAIN TO BE REMOVED
       name    = "iac-aws-oidcRole-app-ecs-demo-1"
       subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:ref:refs/heads/main"
     }
+
+    prod = {
+      name    = "iac-aws-oidcRole-app-ecs-demo-1-prod"
+      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:prod:ref:refs/heads/main"
+    }
+
+    stag = {
+      name    = "iac-aws-oidcRole-app-ecs-demo-1-stag"
+      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:stag:ref:refs/heads/main"
+    }        
 
   }
 }
