@@ -14,6 +14,18 @@ locals {
 
   oidc_roles_app_ecs_demo_1 = {
 
+/**
+Note that when environments are not set (refer to GitHub Actions environments section), we are referring to a specific branch name (:ref:refs/heads/main):
+
+subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:ref:refs/heads/main"
+
+When environments are set (prod / stag), we have to change the subject:
+
+subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:prod*"
+
+Branch protection should in this case be enabled at the repository level in the "environments" section "Deployment branches and tags" for each particular environment. Only then it may be possible targeting those branches from within the OIDC role (as per below specimens).
+**/
+
     # NOTE: OIDC
     main = { # NOTE: Used to push image to ECR
       name    = "iac-aws-oidcRole-app-ecs-demo-1"
