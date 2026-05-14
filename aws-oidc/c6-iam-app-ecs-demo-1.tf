@@ -147,7 +147,8 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         Effect = "Allow",
         Action = [
           "ecs:ListTaskDefinitions",
-          "ecs:DeregisterTaskDefinition"
+          "ecs:DeregisterTaskDefinition",
+          "ecs:DeleteTaskDefinitions"
         ]
 
         Resource = [
