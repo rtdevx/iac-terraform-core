@@ -135,13 +135,24 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         Effect = "Allow",
         Action = [
           "ecr:DescribeImages",
-          "ecr:BatchDeleteImage"
+          "ecr:BatchDeleteImage",
         ]
 
         Resource = [
           "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
         ]
-      },      
+      },
+      # NOTE: Allow GitHub Actions permissions to delete Task Definitions from ECR (ECR Cleanup).
+      {
+        Effect = "Allow",
+        Action = [
+          "ecs:ListTaskDefinitions",
+        ]
+
+        Resource = [
+          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
+        ]
+      },              
       # NOTE: Allow GitHub Actions to get "ecr:GetAuthorizationToken".
       /**
       "ecr:GetAuthorizationToken" is a global ECR action and cannot be scoped to a repository ARN.
