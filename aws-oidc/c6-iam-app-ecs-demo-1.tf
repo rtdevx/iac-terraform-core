@@ -29,17 +29,17 @@ Additional branch protection rules (i.e. prod approval or delays) are also being
 **/
 
     # NOTE: OIDC
-    main = { # NOTE: Used to push image to ECR
+    main = { # NOTE: Used to push image to ECR and cleanup Task Definitions
       name    = "iac-aws-oidcRole-app-ecs-demo-1"
       subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:ref:refs/heads/main"
     }
 
-    prod = {
+    prod = { # NOTE: Used to deploy to PROD - see explanation above
       name    = "iac-aws-oidcRole-app-ecs-demo-1-prod"
       subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:prod*"
     }
 
-    stag = {
+    stag = { # NOTE: Used to deploy to STAG - see explanation above
       name    = "iac-aws-oidcRole-app-ecs-demo-1-stag"
       subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:stag*"
     }        
@@ -153,7 +153,7 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
 
         Resource = [
           #"arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
-          "*" # ! Can this be scoped to a specific resource?
+          "*" # ! Can this be scoped to a specific resource? Perhaps scoping it only to "arn:aws:ecs:eu-central-1:${var.aws_account_id}:*" would be sufficient?
         ]
       },              
       # NOTE: Allow GitHub Actions to get "ecr:GetAuthorizationToken".
