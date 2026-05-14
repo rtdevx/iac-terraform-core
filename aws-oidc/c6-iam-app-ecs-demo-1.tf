@@ -22,12 +22,12 @@ locals {
 
     prod = {
       name    = "iac-aws-oidcRole-app-ecs-demo-1-prod"
-      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:prod:*main"
+      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:prod:*"
     }
 
     stag = {
       name    = "iac-aws-oidcRole-app-ecs-demo-1-stag"
-      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:stag:*main"
+      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:stag:*"
     }        
 
   }
