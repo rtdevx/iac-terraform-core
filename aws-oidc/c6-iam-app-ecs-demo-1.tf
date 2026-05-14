@@ -24,6 +24,8 @@ When environments are set (prod / stag), we have to change the subject:
 subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:prod*"
 
 Branch protection should in this case be enabled at the repository level in the "environments" section "Deployment branches and tags" for each particular environment. Only then it may be possible targeting those branches from within the OIDC role (as per below specimens).
+
+Additional branch protection rules (i.e. prod approval or delays) are also being controlled in the "environments" section in GitHub.
 **/
 
     # NOTE: OIDC
