@@ -27,7 +27,7 @@ locals {
 
     stag = {
       name    = "iac-aws-oidcRole-app-ecs-demo-1-stag"
-      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:stag:ref:refs/heads/main*"
+      subject = "repo:${var.github_org_aws_apps}/${var.github_repo_ecs_demo_1}:environment:stag:ref:refs*"
     }        
 
   }
