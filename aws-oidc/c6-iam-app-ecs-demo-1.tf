@@ -130,6 +130,18 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
           "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
         ]
       },
+      # NOTE: Allow GitHub Actions permissions to delete images from ECR (ECR Cleanup).
+      {
+        Effect = "Allow",
+        Action = [
+          "ecr:DescribeImages",
+
+        ]
+
+        Resource = [
+          "arn:aws:ecr:eu-central-1:${var.aws_account_id}:repository/aws-ecr-nginx"
+        ]
+      },      
       # NOTE: Allow GitHub Actions to get "ecr:GetAuthorizationToken".
       /**
       "ecr:GetAuthorizationToken" is a global ECR action and cannot be scoped to a repository ARN.
