@@ -150,7 +150,8 @@ resource "aws_iam_role_policy" "oidc_policy_ecs_demo_1" {
         ]
 
         Resource = [
-          "arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
+          #"arn:aws:ecs:eu-central-1:${var.aws_account_id}:task-definition/ecs-nginx-app1-cicd:*",
+          "*" # ! Can this be scoped to a specific resource?
         ]
       },              
       # NOTE: Allow GitHub Actions to get "ecr:GetAuthorizationToken".
