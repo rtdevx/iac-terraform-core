@@ -268,8 +268,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "secretsmanager:GetSecretValue",
           "secretsmanager:GetRandomPassword",
           "secretsmanager:DescribeSecret",
-          "secretsmanager:CreateSecret",
-          "secretsmanager:UpdateSecretVersionStage"
+          "secretsmanager:CreateSecret"
         ]
         Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
       }
