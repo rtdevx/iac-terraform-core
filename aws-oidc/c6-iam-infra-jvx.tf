@@ -265,7 +265,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "kms:DescribeKey",
           "kms:CreateGrant",
           # SSM Secrets manager for DB
-          "secretsmanager:GetSecretValue"
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:GetRandomPassword",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:PutSecretValue",
+          "secretsmanager:UpdateSecretVersionStage"
         ]
         Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
       }
