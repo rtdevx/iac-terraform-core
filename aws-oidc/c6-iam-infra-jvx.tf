@@ -262,7 +262,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:DeleteDBParameterGroup",
           "rds:CreateDBInstance",
           "rds:DescribeDBInstances",
-          "rds:DeleteDBInstance" # ! Delete Instance!
+          "rds:DeleteDBInstance", # ! Delete Instance
           # KMS for DB # TODO: Separate and scope to DB only if appropriate
           "kms:DescribeKey",
           "kms:CreateGrant",
