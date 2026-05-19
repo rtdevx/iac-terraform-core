@@ -261,9 +261,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:DescribeDBParameters",
           "rds:DeleteDBParameterGroup",
           "rds:CreateDBInstance",
-          # KMS for DB
+          # KMS for DB # TODO: Separate and scope to DB only if appropriate
           "kms:DescribeKey",
-          "kms:CreateGrant"
+          "kms:CreateGrant",
+          # SSM Secrets manager for DB
+          "secretsmanager:GetSecretValue"
         ]
         Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
       }
