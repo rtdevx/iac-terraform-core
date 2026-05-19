@@ -259,7 +259,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:ModifyDBParameterGroup",
           "rds:DescribeDBParameterGroups",
           "rds:DescribeDBParameters",
-          "rds:DeleteDBParameterGroup"
+          "rds:DeleteDBParameterGroup",
+          "rds:CreateDBInstance"
         ]
         Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
       }
