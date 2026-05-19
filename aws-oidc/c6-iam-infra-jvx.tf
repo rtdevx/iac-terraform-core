@@ -267,11 +267,6 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "kms:DescribeKey",
           "kms:CreateGrant",
           # SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
-          #"secretsmanager:*",
-          #"secretsmanager:GetSecretValue",
-          #"secretsmanager:GetRandomPassword",
-          #"secretsmanager:DescribeSecret",
-          #"secretsmanager:CreateSecret"
           "secretsmanager:CreateSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DeleteSecret",
