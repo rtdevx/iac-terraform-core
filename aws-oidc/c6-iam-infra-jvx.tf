@@ -256,7 +256,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:ListTagsForResource",
           "rds:DeleteDBSubnetGroup",
           "rds:CreateDBParameterGroup",
-          "rds:ModifyDBParameterGroup"
+          "rds:ModifyDBParameterGroup",
+          "rds:DescribeDBParameterGroups"
         ]
         Resource = "*"
       }
