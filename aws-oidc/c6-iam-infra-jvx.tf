@@ -274,7 +274,13 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           #"secretsmanager:CreateSecret"
           "secretsmanager:CreateSecret",
           "secretsmanager:DeleteSecret",
-          "secretsmanager:DescribeSecret"
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:ListSecrets",
+          "secretsmanager:RotateSecret",
+          "secretsmanager:ReplicateSecretToRegions",
+          "secretsmanager:TagResource",
+          "secretsmanager:UntagResource",
+          "secretsmanager:UpdateSecret"
         ]
         Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
       }
