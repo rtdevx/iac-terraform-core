@@ -265,6 +265,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "kms:DescribeKey",
           "kms:CreateGrant",
           # SSM Secrets manager for DB
+          "secretsmanager:*",
           "secretsmanager:GetSecretValue",
           "secretsmanager:GetRandomPassword",
           "secretsmanager:DescribeSecret",
