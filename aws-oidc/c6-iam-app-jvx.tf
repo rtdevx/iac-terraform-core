@@ -88,7 +88,6 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
       {
         Effect = "Allow",
         Action = [
-          "autoscaling:StartInstanceRefresh",
           "autoscaling:DescribeInstanceRefreshes"
         ]
 
@@ -97,6 +96,14 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-stag-jvx-asg",
           "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-prod-jvx-asg"
         ]
+      },
+      {
+        Effect = "Allow",
+        Action = [
+          "autoscaling:DescribeInstanceRefreshes"
+        ]
+
+        Resource = [ "*" ]
       }
 
     ]
