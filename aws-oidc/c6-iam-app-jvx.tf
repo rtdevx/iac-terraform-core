@@ -75,7 +75,8 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
       {
         Effect = "Allow",
         Action = [
-          "ssm:PutParameter"
+          "ssm:PutParameter",
+          "ssm:GetParameter"
         ]
 
         Resource = "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/jvx/version"
