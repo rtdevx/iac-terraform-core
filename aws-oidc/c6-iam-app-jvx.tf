@@ -105,8 +105,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
 
         Resource = [ 
           "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-*-jvx-asg",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:*",
-          "${aws_launch_template.my_launch_template.arn}"
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:*"
          ]
       }
 
