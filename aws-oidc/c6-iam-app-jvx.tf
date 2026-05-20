@@ -104,7 +104,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
         ]
 
         Resource = [ 
-          "arn:aws:autoscaling:*"
+          "*"
          ]
       }
 
