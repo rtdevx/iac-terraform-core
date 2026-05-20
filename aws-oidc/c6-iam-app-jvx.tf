@@ -80,8 +80,8 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
         ] 
 
         Resource = [
-          "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/jvx/version",
-          "arn:aws:ssm:eu-west-2:${var.aws_account_id}:parameter/jvx/version_previous"
+          "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/jvx/version",
+          "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/jvx/version_previous"
         ]
       },
       # NOTE: Allow GitHub Actions to autoscaling:StartInstanceRefresh in app-aws repository
@@ -92,9 +92,9 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
         ]
 
         Resource = [
-          "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-dev-jvx-asg",
-          "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-stag-jvx-asg",
-          "arn:aws:autoscaling:eu-west-2:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-prod-jvx-asg"
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-dev-jvx-asg",
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-stag-jvx-asg",
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-prod-jvx-asg"
         ]
       },
       {
@@ -103,7 +103,9 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "autoscaling:DescribeInstanceRefreshes"
         ]
 
-        Resource = [ "*" ]
+        Resource = [ 
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/*"                    
+         ]
       }
 
     ]
