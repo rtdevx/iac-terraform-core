@@ -88,7 +88,8 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
       {
         Effect = "Allow",
         Action = [
-          "autoscaling:StartInstanceRefresh"
+          "autoscaling:StartInstanceRefresh",
+          "autoscaling:DescribeInstanceRefreshes"
         ]
 
         Resource = [
