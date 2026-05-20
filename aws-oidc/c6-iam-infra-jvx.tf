@@ -276,7 +276,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "secretsmanager:ReplicateSecretToRegions",
           "secretsmanager:TagResource",
           "secretsmanager:UntagResource",
-          "secretsmanager:UpdateSecret"
+          "secretsmanager:UpdateSecret",
+          "secretsmanager:GetResourcePolicy"
         ]
         Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
       }
