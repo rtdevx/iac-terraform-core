@@ -103,9 +103,7 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "autoscaling:DescribeInstanceRefreshes"
         ]
 
-        Resource = [ 
-          "*"
-         ]
+        Resource = [ "*" ] # NOTE: Required on all resources, this is no resource specific.
       }
 
     ]
