@@ -14,6 +14,8 @@ permissions:
   contents: read
   
 env:
+  AWS_REGION: eu-west-2
+  AWS_ACCOUNT_ID: 390157243794
   WORKDIR: "./aws-oidc"  # NOTE: Define WORKDIR. If not defined here and reused at steps, scheduler may not trigger.
   TERRAFORM_VERSION: "1.13.5"
   TF_COMMAND: "apply"
@@ -34,8 +36,8 @@ jobs:
       - name: Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::390157243794:role/iac-aws-oidcRole-oidc
-          aws-region: eu-west-2
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/iac-aws-oidcRole-oidc
+          aws-region: ${{ env.AWS_REGION }}
 
 # NOTE: Deploy Terraform
 
