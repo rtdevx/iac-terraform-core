@@ -1,0 +1,59 @@
+name: 02-02-CORE-AWS-IAM
+
+# NOTE: Fetch AWS Credentials
+
+on:
+  schedule:
+    - cron: "0 6 * * *"
+  push:
+    branches:
+      - main
+  workflow_dispatch:      
+permissions:
+  id-token: write
+  contents: read
+  
+env:
+  AWS_REGION: eu-west-2
+  AWS_ACCOUNT_ID: 390157243794
+  WORKDIR: "./aws-iam" # NOTE: Define WORKDIR. If not defined here and reused at steps, scheduler may not trigger.
+  TERRAFORM_VERSION: "1.13.5"
+  TF_COMMAND: "apply"
+  
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  terraform-core-s3:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/iac-aws-oidcRole-oidc
+          aws-region: ${{ env.AWS_REGION }}
+
+# NOTE: Deploy Terraform
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TERRAFORM_VERSION }}
+
+# NOTE: Terraform Init / Plan / Apply
+      - name: Terraform Init
+        working-directory: ${{ env.WORKDIR }}      
+        run: terraform init -input=false
+
+      - name: Terraform Plan
+        working-directory: ${{ env.WORKDIR }}      
+        run: terraform plan
+
+      - name: Terraform Apply
+        working-directory: ${{ env.WORKDIR }}      
+        run: terraform $TF_COMMAND -auto-approve
