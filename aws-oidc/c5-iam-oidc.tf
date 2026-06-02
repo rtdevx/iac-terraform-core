@@ -84,6 +84,24 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "s3:DeleteBucket",                     # Required by GitHub Actions to create Bucket
         "s3:PutBucketOwnershipControls",       # Required by GitHub Actions to create Bucket
         "s3:PutBucketPolicy",                  # Required by GitHub Actions to create Bucket
+      ]
+
+      Resource = [
+        # S3 backend bucket and objects (state)
+        "arn:aws:s3:::rk-backend",
+        "arn:aws:s3:::rk-backend/*",
+        "arn:aws:s3:::rk-artifact",
+        "arn:aws:s3:::rk-artifact/*"
+      ]
+
+    },
+    {
+      Effect = "Allow"
+
+      # NOTE: Least-privilege policy for GitHub Actions OIDC role.
+      # - S3: limited to the known backend bucket used for Terraform state.
+      # - IAM: read/list permissions scoped to TF-related roles in this account (wildcard for `iac-aws-oidcRole--*`).
+      Action = [
         "iam:GetRole",
         "iam:GetOpenIDConnectProvider",
         "iam:ListRolePolicies",
@@ -106,18 +124,13 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
       ]
 
       Resource = [
-        # S3 backend bucket and objects (state)
-        "arn:aws:s3:::rk-backend",
-        "arn:aws:s3:::rk-backend/*",
-        "arn:aws:s3:::rk-artifact",
-        "arn:aws:s3:::rk-artifact/*",
-
         # Allow read access to IAM roles/policies that match iac-aws-oidcRole-* in this account
         "arn:aws:iam::${var.aws_account_id}:role/iac-aws-oidcRole-*",
         "arn:aws:iam::${var.aws_account_id}:oidc-provider/token.actions.githubusercontent.com", # Required by iam:GetOpenIDConnectProvider
         "arn:aws:iam::${var.aws_account_id}:group/admin"
       ]
 
-    }]
+    }    
+    ]
   })
 }
