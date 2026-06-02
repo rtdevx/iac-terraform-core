@@ -60,7 +60,6 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
 
       # NOTE: Least-privilege policy for GitHub Actions OIDC role.
       # - S3: limited to the known backend bucket used for Terraform state.
-      # - IAM: read/list permissions scoped to TF-related roles in this account (wildcard for `iac-aws-oidcRole--*`).
       Action = [
         "s3:GetObject",
         "s3:PutObject",
@@ -99,7 +98,6 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
       Effect = "Allow"
 
       # NOTE: Least-privilege policy for GitHub Actions OIDC role.
-      # - S3: limited to the known backend bucket used for Terraform state.
       # - IAM: read/list permissions scoped to TF-related roles in this account (wildcard for `iac-aws-oidcRole--*`).
       Action = [
         "iam:GetRole",
@@ -130,9 +128,8 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
     },
     {
       Effect = "Allow"
-#arn:aws:iam::390157243794:group/admin
-      # NOTE: Least-privilege policy for GitHub Actions OIDC role.
 
+      # NOTE: Least-privilege policy for GitHub Actions OIDC role.
       Action = [
         "iam:GetUser",
         "iam:GetGroup",
