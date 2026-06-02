@@ -25,15 +25,15 @@ defaults:
     shell: bash
 
 jobs:
-  terraform-core-s3:
+  terraform-core-aws-iam:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Configure AWS Credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/iac-aws-oidcRole-oidc
           aws-region: ${{ env.AWS_REGION }}
@@ -41,7 +41,7 @@ jobs:
 # NOTE: Deploy Terraform
 
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
         with:
           terraform_version: ${{ env.TERRAFORM_VERSION }}
 
