@@ -100,8 +100,8 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "iam:ListInstanceProfilesForRole", # Required by GitHub Actions to delete role
         "iam:DeleteRole",                  # Required by GitHub Actions to delete role
         "iam:UpdateAssumeRolePolicy",
-        "iam:GetUser",                    # Required to modify IAM Users
-        "iam:GetGroup"                    # Required to modify IAM Groups
+        #"iam:GetUser",                    # Required to modify IAM Users
+        #"iam:GetGroup"                    # Required to modify IAM Groups
         #"iam:GetRole"
       ]
 
