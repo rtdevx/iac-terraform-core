@@ -117,10 +117,7 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "iam:CreatePolicy",
         "iam:ListInstanceProfilesForRole", # Required by GitHub Actions to delete role
         "iam:DeleteRole",                  # Required by GitHub Actions to delete role
-        "iam:UpdateAssumeRolePolicy",
-        #"iam:GetUser",                    # Required to modify IAM Users
-        #"iam:GetGroup"                    # Required to modify IAM Groups
-        #"iam:GetRole"
+        "iam:UpdateAssumeRolePolicy"
       ]
 
       Resource = [
@@ -130,7 +127,26 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "arn:aws:iam::${var.aws_account_id}:group/admin"
       ]
 
+    },
+    {
+      Effect = "Allow"
+#arn:aws:iam::390157243794:group/admin
+      # NOTE: Least-privilege policy for GitHub Actions OIDC role.
+
+      Action = [
+        "iam:GetUser",
+        "iam:GetGroup",
+        "iam:GetRole"
+      ]
+
+      Resource = [
+        "arn:aws:iam::${var.aws_account_id}:user/users/admins/*",                        # NOTE: iam:GetUser
+        "arn:aws:iam::${var.aws_account_id}:group/admin",                                # NOTE: iam:GetGroup
+        "arn:aws:iam::${var.aws_account_id}:role/OrganizationAccountAccessRole",         # NOTE: iam:GetRole        
+      ]
+
     }    
+
     ]
   })
 }
