@@ -136,13 +136,14 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
       Action = [
         "iam:GetUser",
         "iam:GetGroup",
-        "iam:GetRole"
+        "iam:GetRole",
+        "iam:ListRolePolicies"
       ]
 
       Resource = [
         "arn:aws:iam::${var.aws_account_id}:user/users/admins/*",                        # NOTE: iam:GetUser
         "arn:aws:iam::${var.aws_account_id}:group/admin",                                # NOTE: iam:GetGroup
-        "arn:aws:iam::${var.aws_account_id}:role/OrganizationAccountAccessRole",         # NOTE: iam:GetRole        
+        "arn:aws:iam::${var.aws_account_id}:role/OrganizationAccountAccessRole",         # NOTE: iam:GetRole, iam:ListRolePolicies
       ]
 
     }    
