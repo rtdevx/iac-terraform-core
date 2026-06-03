@@ -24,10 +24,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
   bucket = aws_s3_bucket.this.bucket
 
   rule {
-    id = "config"
+    id = "lifecycle_configuration"
 
     filter {
-      prefix = "config/"
+      prefix = "lifecycle_configuration/"
     }
 
     noncurrent_version_expiration {
