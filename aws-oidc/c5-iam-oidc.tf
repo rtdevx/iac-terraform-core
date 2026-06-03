@@ -83,7 +83,8 @@ resource "aws_iam_role_policy" "oidc_policy_oidc" {
         "s3:DeleteBucket",                     # Required by GitHub Actions to create Bucket
         "s3:PutBucketOwnershipControls",       # Required by GitHub Actions to create Bucket
         "s3:PutBucketPolicy",                  # Required by GitHub Actions to create Bucket
-        "s3:PutBucketVersioning"               # Required by GitHub Actions to enable Bucket Versioning
+        "s3:PutBucketVersioning",              # Required by GitHub Actions to enable Bucket Versioning
+        "s3:PutLifecycleConfiguration"         # Required by GitHub Actions to enable Bucket Versioning
       ]
 
       Resource = [
