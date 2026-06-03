@@ -12,7 +12,6 @@ resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.id
   versioning_configuration {
     status     = "Enabled"
-    mfa_delete = "Enabled" # NOTE: Requires multi-factor authentication for changing Bucket Versioning settings and permanently deleting object versions
   }
 }
 
