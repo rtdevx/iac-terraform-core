@@ -37,11 +37,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
 
     /*
 
-    # NOTE: Other potential configuration options
-
-    noncurrent_version_expiration {
-      noncurrent_days = 90
-    }
+    # NOTE: Other possible configuration options for storage-class transitions
 
     noncurrent_version_transition {
       noncurrent_days = 30
