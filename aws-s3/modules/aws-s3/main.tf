@@ -11,7 +11,8 @@ resource "aws_s3_bucket" "this" {
 resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.id
   versioning_configuration {
-    status = "Enabled"
+    status     = "Enabled"
+    mfa_delete = "Enabled" # NOTE: Requires multi-factor authentication for changing Bucket Versioning settings and permanently deleting object versions
   }
 }
 
@@ -31,7 +32,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "this" {
     }
 
     noncurrent_version_expiration {
-      noncurrent_days = 7   # NOTE: Number of days an object is noncurrent before Amazon S3 can perform the associated action.
+      noncurrent_days           = 7 # NOTE: Number of days an object is noncurrent before Amazon S3 can perform the associated action.
       newer_noncurrent_versions = 3
     }
 
