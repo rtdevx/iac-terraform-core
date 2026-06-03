@@ -11,7 +11,51 @@ resource "aws_s3_bucket" "this" {
 resource "aws_s3_bucket_versioning" "this" {
   bucket = aws_s3_bucket.this.id
   versioning_configuration {
-    status = "Disabled" # Currently not required.
+    status = "Enabled"
+  }
+}
+
+# INFO: S3 bucket lifecycle configuration
+
+resource "aws_s3_bucket_lifecycle_configuration" "this" {
+  # NOTE: Must have bucket versioning enabled first
+  depends_on = [aws_s3_bucket_versioning.this]
+
+  bucket = aws_s3_bucket.this.bucket
+
+  rule {
+    id = "config"
+
+    filter {
+      prefix = "config/"
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 7   # NOTE: Number of days an object is noncurrent before Amazon S3 can perform the associated action.
+      newer_noncurrent_versions = 3
+    }
+
+    /*
+
+    # NOTE: Other potential configuration options
+
+    noncurrent_version_expiration {
+      noncurrent_days = 90
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 30
+      storage_class   = "STANDARD_IA"
+    }
+
+    noncurrent_version_transition {
+      noncurrent_days = 60
+      storage_class   = "GLACIER"
+    }
+
+    */
+
+    status = "Enabled"
   }
 }
 
