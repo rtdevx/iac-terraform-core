@@ -94,10 +94,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       },
       {
         # NOTE: The following actions manage/create AWS resources (EC2, ELB, ASG, RDS, Route53, ACM, SNS).
-        # Many "Create"/"Delete" actions require Resource = "*"; narrow further if you can supply specific ARNs.
+        # TODO: Many "Create"/"Delete" actions require Resource = "*"; narrow further if you can supply specific ARNs.
         Effect = "Allow"
         Action = [
-          # EC2  
+          # NOTE: EC2
           "ec2:DescribeAvailabilityZones",            # Required to build VPC
           "ec2:CreateVpc",                            # Required to build VPC
           "ec2:CreateTags",                           # Required to build VPC
@@ -156,15 +156,31 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DeleteRouteTable",                     # Required to perform DESTROY
           "ec2:DeleteSubnet",                         # Required to perform DESTROY
           "ec2:DetachInternetGateway",                # Required to perform DESTROY
-          "ec2:DeleteInternetGateway",                # Required to perform DESTROY
-          # Route53
+          "ec2:DeleteInternetGateway"                 # Required to perform DESTROY
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [          
+          # NOTE: Route53
           "route53:ListHostedZones",
           "route53:GetHostedZone",
           "route53:ListTagsForResource",
           "route53:ChangeResourceRecordSets",
           "route53:GetChange",
-          "route53:ListResourceRecordSets",
-          # ELB
+          "route53:ListResourceRecordSets"
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: ELB
           "elasticloadbalancing:DescribeLoadBalancers",
           "elasticloadbalancing:DescribeTargetGroups",
           "elasticloadbalancing:CreateLoadBalancer",
@@ -186,8 +202,16 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "elasticloadbalancing:DeleteTargetGroup",  # Required to delete LB
           "elasticloadbalancing:ModifyTargetGroup",  # Required to Modify Target Group only. TO BE COMMENTED OUT.
           "elasticloadbalancing:ModifyListener",     # Required to Modify Target Group only. TO BE COMMENTED OUT.
-          "elasticloadbalancing:ModifyRule",         # Required to Modify Target Group only. TO BE COMMENTED OUT. 
-          # ASG
+          "elasticloadbalancing:ModifyRule"          # Required to Modify Target Group only. TO BE COMMENTED OUT.
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [              
+          # NOTE: ASG
           "autoscaling:CreateAutoScalingGroup",
           "autoscaling:DescribeScalingActivities",
           "autoscaling:DescribeAutoScalingGroups",
@@ -206,8 +230,16 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "autoscaling:UpdateAutoScalingGroup",
           "autoscaling:DeleteAutoScalingGroup",
           "autoscaling:DetachLoadBalancerTargetGroups",
-          "autoscaling:StartInstanceRefresh",
-          # IAM
+          "autoscaling:StartInstanceRefresh" 
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: IAM
           "iam:CreateRole",                # Required to create IAM roles for SSM access 
           "iam:GetRole",                   # Required to create IAM roles for SSM access
           "iam:ListRolePolicies",          # Required to create IAM roles for SSM access
@@ -234,13 +266,29 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "iam:RemoveRoleFromInstanceProfile",
           "iam:DeleteInstanceProfile",
           "iam:ListInstanceProfilesForRole",
-          "iam:DeleteRole",
-          # ACM
+          "iam:DeleteRole"
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
           "acm:ListTagsForCertificate",
-          "acm:DeleteCertificate",
-          # SNS
+          "acm:DeleteCertificate"
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: SNS
           "SNS:CreateTopic",
           "SNS:SetTopicAttributes",
           "SNS:GetTopicAttributes",
@@ -248,8 +296,16 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "SNS:DeleteTopic",
           "SNS:Subscribe",
           "SNS:GetSubscriptionAttributes",
-          "SNS:Unsubscribe",
-          # RDS
+          "SNS:Unsubscribe"
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: RDS
           "rds:CreateDBSubnetGroup",
           "rds:AddTagsToResource",
           "rds:DescribeDBSubnetGroups",
@@ -262,11 +318,27 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:DeleteDBParameterGroup",
           "rds:CreateDBInstance",
           "rds:DescribeDBInstances",
-          "rds:DeleteDBInstance", # ! Delete Instance
-          # KMS for DB # TODO: Separate and scope to DB only if appropriate
+          "rds:DeleteDBInstance" # ! Delete Instance
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: KMS for DB          
           "kms:DescribeKey",
-          "kms:CreateGrant",
-          # SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
+          "kms:CreateGrant"
+        ]
+        Resource = [
+          "*"
+        ]
+      },
+      {
+        Effect = "Allow"
+        Action = [             
+          # NOTE: SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
           "secretsmanager:CreateSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DeleteSecret",
@@ -280,7 +352,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "secretsmanager:GetResourcePolicy",
           "secretsmanager:PutSecretValue"
         ]
-        Resource = "*" # TODO: Separate policies and scope them to relevant resources OR at least restrict them more where appropriate
+        Resource = "*"
       }
     ]
   })
