@@ -438,7 +438,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "secretsmanager:PutSecretValue"
         ]
         Resource = [
-          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:rds!db-*"
+          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:rds!db-*",
+          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*" # NOTE: Required for "secretsmanager:GetResourcePolicy"
         ]
       }
     ]
