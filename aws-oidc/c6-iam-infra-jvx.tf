@@ -173,7 +173,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:internet-gateway/*",
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:network-acl/*",
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:elastic-ip/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*"
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:natgateway/*"
         ]
       },
       # NOTE: Route53
@@ -196,7 +197,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         ]
         Resource = [
           #"arn:aws:route53:::hostedzone/Z0009000UNGSZYNHE9BD"
-          "arn:aws:route53:::hostedzone/*"
+          "arn:aws:route53:::hostedzone/*",
+          "arn:aws:route53:::change/*"
         ]
       },
       # NOTE: ELB
@@ -407,6 +409,13 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect   = "Allow"
         Action   = [
+          "secretsmanager:DescribeSecret"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow"
+        Action   = [
           "secretsmanager:CreateSecret"
         ]
         Resource = "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*"
@@ -418,7 +427,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           #"secretsmanager:CreateSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DeleteSecret",
-          "secretsmanager:DescribeSecret",
+          #"secretsmanager:DescribeSecret",
           "secretsmanager:ListSecrets",
           "secretsmanager:RotateSecret",
           "secretsmanager:ReplicateSecretToRegions",
