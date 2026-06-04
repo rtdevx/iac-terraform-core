@@ -186,9 +186,16 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       },
       # NOTE: Route53
       {
+        Effect   = "Allow"
+        Action   = [
+          "route53:ListHostedZones"
+        ]
+        Resource = "*"
+      },      
+      {
         Effect = "Allow"
         Action = [          
-          "route53:ListHostedZones",
+          #"route53:ListHostedZones",
           "route53:GetHostedZone",
           "route53:ListTagsForResource",
           "route53:ChangeResourceRecordSets",
@@ -196,8 +203,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "route53:ListResourceRecordSets"
         ]
         Resource = [
-          "arn:aws:route53:::hostedzone/Z0009000UNGSZYNHE9BD"
-          #"arn:aws:route53:::hostedzone/*"
+          #"arn:aws:route53:::hostedzone/Z0009000UNGSZYNHE9BD"
+          "arn:aws:route53:::hostedzone/*"
         ]
       },
       # NOTE: ELB
@@ -228,7 +235,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "elasticloadbalancing:ModifyRule"          # Required to Modify Target Group only. TO BE COMMENTED OUT.
         ]
         Resource = [
-          "*"
+          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:loadbalancer/app/*/*",
+          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:listener/app/*/*/*",
+          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:listener-rule/app/*/*/*/*",
+          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:targetgroup/*/*"
         ]
       },
       # NOTE: ASG
@@ -256,7 +266,9 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "autoscaling:StartInstanceRefresh" 
         ]
         Resource = [
-          "*"
+          "arn:aws:iam::${var.aws_account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/*",
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:scalingPolicy:*:autoScalingGroupName/*:policyName/*"
         ]
       },
       # NOTE: IAM
@@ -295,7 +307,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
-      # NOTE: IAM
+      # NOTE: ACM
       {
         Effect = "Allow"
         Action = [             
@@ -305,7 +317,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "acm:DeleteCertificate"
         ]
         Resource = [
-          "*"
+          "arn:aws:acm:${var.aws_region}:${var.aws_account_id}:certificate/*"
         ]
       },
       # NOTE: SNS
@@ -322,7 +334,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "SNS:Unsubscribe"
         ]
         Resource = [
-          "*"
+          "arn:aws:sns:${var.aws_region}:${var.aws_account_id}:*"
         ]
       },
       # NOTE: RDS
@@ -344,7 +356,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:DeleteDBInstance" # ! Delete Instance
         ]
         Resource = [
-          "*"
+          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:db:*",
+          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:pg:*" # NOTE: Parameter Group
         ]
       },
       # NOTE: KMS for DB
@@ -355,7 +368,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "kms:CreateGrant"
         ]
         Resource = [
-          "*"
+          "arn:aws:kms:${var.aws_region}:${var.aws_account_id}:key/*"
         ]
       },
       # NOTE: SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
@@ -375,7 +388,9 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "secretsmanager:GetResourcePolicy",
           "secretsmanager:PutSecretValue"
         ]
-        Resource = "*"
+        Resource = [
+          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:rds!db-*"
+        ]
       }
     ]
   })
