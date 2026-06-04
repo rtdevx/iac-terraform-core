@@ -22,12 +22,12 @@ locals {
 
     dev = {
       name    = "iac-aws-oidcRole-infra-jvx-dev"
-      subject = "repo:${var.github_org}/${var.github_repo_infra_jvx}:ref:refs/heads/main" # TODO: Head to be changed to dev. Promoting regions in progress.
+      subject = "repo:${var.github_org}/${var.github_repo_infra_jvx}:ref:refs/heads/main" 
     }
 
     stag = {
       name    = "iac-aws-oidcRole-infra-jvx-stag"
-      subject = "repo:${var.github_org}/${var.github_repo_infra_jvx}:ref:refs/heads/main" # TODO: Head to be changed to dev. Promoting regions in progress.
+      subject = "repo:${var.github_org}/${var.github_repo_infra_jvx}:ref:refs/heads/main" 
     }
 
   }
@@ -159,7 +159,15 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DeleteInternetGateway"                 # Required to perform DESTROY
         ]
         Resource = [
-          "*"
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:vpc/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:security-group/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:security-group-rule/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:subnet/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:route-table/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:internet-gateway/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:network-acl/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:elastic-ip/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*"
         ]
       },
       {
@@ -327,7 +335,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: KMS for DB          
+          # NOTE: KMS for DB
           "kms:DescribeKey",
           "kms:CreateGrant"
         ]
