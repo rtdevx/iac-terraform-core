@@ -231,6 +231,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect   = "Allow"
         Action   = [
+          "autoscaling:CreateAutoScalingGroup",
           "autoscaling:Describe*"
         ]
         Resource = "*"
@@ -259,7 +260,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect = "Allow"
         Action = [              
-          "autoscaling:CreateAutoScalingGroup",
+          #"autoscaling:CreateAutoScalingGroup",
           "autoscaling:AttachLoadBalancerTargetGroups",
           "autoscaling:PutNotificationConfiguration",
           "autoscaling:PutScalingPolicy",
