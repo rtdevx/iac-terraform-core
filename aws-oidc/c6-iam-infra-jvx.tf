@@ -107,30 +107,28 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DisassociateAddress" 
         ]
         Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:*/*" # NOTE: Required to destroy EIP
-      },      
+      },
+      { # NOTE: Required For ASG to create / access Launch Template
+        Effect = "Allow"
+        Action = [
+          "ec2:CreateNetworkInterface",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:AttachNetworkInterface",
+          "ec2:DeleteNetworkInterface"
+        ]
+        Resource = "*"
+      },
       {
         Effect = "Allow"
         Action = [
-          #"ec2:DescribeAvailabilityZones",            # Required to build VPC
           "ec2:CreateVpc",                            # Required to build VPC
           "ec2:CreateTags",                           # Required to build VPC
-          #"ec2:DescribeVpcs",                         # Required to build VPC
-          #"ec2:DescribeVpcAttribute",                 # Required to build VPC
           "ec2:DeleteVpc",                            # Required to build VPC
           "ec2:ModifyVpcAttribute",                   # Required to build VPC
           "ec2:CreateSecurityGroup",                  # Required to build VPC
           "ec2:CreateSubnet",                         # Required to build VPC
           "ec2:CreateRouteTable",                     # Required to build VPC
           "ec2:CreateInternetGateway",                # Required to build VPC
-          #"ec2:DescribeSecurityGroups",               # Required to build VPC
-          #"ec2:DescribeRouteTables",                  # Required to build VPC
-          #"ec2:DescribeSecurityGroupRules",           # Required to build VPC
-          #"ec2:DescribeSubnets",                      # Required to build VPC
-          #"ec2:DescribeInternetGateways",             # Required to build VPC
-          #"ec2:DescribeNetworkAcls",                  # Required to build VPC
-          #"ec2:DescribeAddresses",                    # Required to build VPC
-          #"ec2:DescribeAddressesAttribute",           # Required to build VPC
-          #"ec2:DescribeNatGateways",                  # Required to build VPC
           "ec2:AuthorizeSecurityGroupIngress",        # Required to build VPC
           "ec2:AuthorizeSecurityGroupEgress",         # Required to build VPC
           "ec2:AssociateRouteTable",                  # Required to build VPC
@@ -139,29 +137,18 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:CreateRoute",                          # Required to build VPC
           "ec2:CreateNatGateway",                     # Required to build VPC
           "ec2:CreateNetworkAclEntry",                # Required to build VPC
-          #"ec2:DescribeImages",                       # Required for EC2 instance related AWS Data Source
           "ec2:RunInstances",                         # Required to build EC2 instance
-          #"ec2:DescribeInstances",                    # Required to build EC2 instance
-          #"ec2:DescribeInstanceTypes",                # Required to build EC2 instance
-          #"ec2:DescribeTags",                         # Required to build EC2 instance
-          #"ec2:DescribeInstanceAttribute",            # Required to build EC2 instance
-          #"ec2:DescribeVolumes",                      # Required to build EC2 instance
-          #"ec2:DescribeInstanceCreditSpecifications", # Required to build EC2 instance
           "ec2:TerminateInstances",                   # Required to build EC2 instance
           "ec2:AllocateAddress",                      # Required for Elastic IP
           "ec2:AssociateAddress",                     # Required for Elastic IP
           "ec2:ReleaseAddress",                       # Required for Elastic IP
           "ec2:CreateLaunchTemplate",                 # Required to build Launch Template
-          #"ec2:DescribeLaunchTemplates",              # Required to build Launch Template
-          #"ec2:DescribeLaunchTemplateVersions",       # Required to build Launch Template
           "ec2:CreateLaunchTemplateVersion",          # Required to build Launch Template
           "ec2:ModifyLaunchTemplate",                 # Required to build Launch Template
           "ec2:RevokeSecurityGroupIngress",           # Required to perform DESTROY
           "ec2:RevokeSecurityGroupEgress",            # Required to perform DESTROY
           "ec2:DeleteLaunchTemplate",                 # Required to perform DESTROY
-          #"ec2:DisassociateAddress",                  # Required to perform DESTROY
           "ec2:DeleteLaunchTemplate",                 # Required to perform DESTROY
-          #"ec2:DescribeNetworkInterfaces",            # Required to perform DESTROY
           "ec2:DeleteRoute",                          # Required to perform DESTROY
           "ec2:DisassociateRouteTable",               # Required to perform DESTROY
           "ec2:DeleteSecurityGroup",                  # Required to perform DESTROY
@@ -195,7 +182,6 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect = "Allow"
         Action = [          
-          #"route53:ListHostedZones",
           "route53:GetHostedZone",
           "route53:ListTagsForResource",
           "route53:ChangeResourceRecordSets",
@@ -219,22 +205,14 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect = "Allow"
         Action = [             
-          #"elasticloadbalancing:DescribeLoadBalancers",
-          #"elasticloadbalancing:DescribeTargetGroups",
           "elasticloadbalancing:CreateLoadBalancer",
           "elasticloadbalancing:CreateTargetGroup",
           "elasticloadbalancing:AddTags",
           "elasticloadbalancing:ModifyTargetGroupAttributes",
-          #"elasticloadbalancing:DescribeTargetGroupAttributes",
-          #"elasticloadbalancing:DescribeTags",
           "elasticloadbalancing:ModifyLoadBalancerAttributes",
-          #"elasticloadbalancing:DescribeLoadBalancerAttributes",
           "elasticloadbalancing:CreateListener",
-          #"elasticloadbalancing:DescribeListeners",
-          #"elasticloadbalancing:DescribeListenerAttributes",
           "elasticloadbalancing:DeleteListener",
           "elasticloadbalancing:CreateRule",
-          #"elasticloadbalancing:DescribeRules",
           "elasticloadbalancing:DeleteRule",
           "elasticloadbalancing:DeleteLoadBalancer", # Required to delete LB
           "elasticloadbalancing:DeleteTargetGroup",  # Required to delete LB
@@ -275,17 +253,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Effect = "Allow"
         Action = [              
           "autoscaling:CreateAutoScalingGroup",
-          #"autoscaling:DescribeScalingActivities",
-          #"autoscaling:DescribeAutoScalingGroups",
           "autoscaling:AttachLoadBalancerTargetGroups",
           "autoscaling:PutNotificationConfiguration",
           "autoscaling:PutScalingPolicy",
           "autoscaling:PutScheduledUpdateGroupAction",
           "autoscaling:PutScheduledUpdateGroupAction",
-          #"autoscaling:DescribeNotificationConfigurations",
-          #"autoscaling:DescribePolicies",
-          #"autoscaling:DescribeScheduledActions",
-          #"autoscaling:DescribeScheduledActions",
           "autoscaling:DeleteNotificationConfiguration",
           "autoscaling:DeleteScheduledAction",
           "autoscaling:DeletePolicy",
@@ -350,7 +322,6 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Effect = "Allow"
         Action = [             
           "acm:RequestCertificate",
-          #"acm:DescribeCertificate",
           "acm:ListTagsForCertificate",
           "acm:DeleteCertificate"
         ]
@@ -391,16 +362,12 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Action = [             
           "rds:CreateDBSubnetGroup",
           "rds:AddTagsToResource",
-          #"rds:DescribeDBSubnetGroups",
           "rds:ListTagsForResource",
           "rds:DeleteDBSubnetGroup",
           "rds:CreateDBParameterGroup",
           "rds:ModifyDBParameterGroup",
-          #"rds:DescribeDBParameterGroups",
-          #"rds:DescribeDBParameters",
           "rds:DeleteDBParameterGroup",
           "rds:CreateDBInstance",
-          #"rds:DescribeDBInstances",
           "rds:DeleteDBInstance" # ! Delete Instance
         ]
         Resource = [
@@ -420,7 +387,6 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect = "Allow"
         Action = [             
-          #"kms:DescribeKey",
           "kms:CreateGrant"
         ]
         Resource = [
@@ -446,10 +412,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect = "Allow"
         Action = [             
-          #"secretsmanager:CreateSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DeleteSecret",
-          #"secretsmanager:DescribeSecret",
           "secretsmanager:ListSecrets",
           "secretsmanager:RotateSecret",
           "secretsmanager:ReplicateSecretToRegions",
