@@ -256,7 +256,21 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "autoscaling:Describe*"
         ]
         Resource = "*"
-      },       
+      },
+      { # NOTE: Required by ASG to manage Launch Templates
+        Effect = "Allow"
+        Action = [
+          "ec2:DescribeLaunchTemplates",
+          "ec2:DescribeLaunchTemplateVersions",
+          "ec2:DescribeImages",
+          "ec2:DescribeInstanceTypes",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeVpcs",
+          "ec2:RunInstances"
+        ]
+        Resource = "*"
+      },             
       {
         Effect = "Allow"
         Action = [              
