@@ -196,7 +196,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "route53:ListResourceRecordSets"
         ]
         Resource = [
-          "arn:aws:route53:::hostedzone/${data.aws_route53_zone.hosted_zone.zone_id}"
+          "arn:aws:route53:::hostedzone/Z0009000UNGSZYNHE9BD"
+          #"arn:aws:route53:::hostedzone/*"
         ]
       },
       # NOTE: ELB
