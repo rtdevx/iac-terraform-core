@@ -93,6 +93,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         ]
       },
       # NOTE: The following actions manage/create AWS resources (EC2, ELB, ASG, RDS, Route53, ACM, SNS).
+      # NOTE: EC2
       {
         Effect   = "Allow"
         Action   = [
@@ -103,14 +104,14 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DescribeRouteTables",
           "ec2:DescribeInternetGateways",
           "ec2:DescribeNetworkAcls",
-          "ec2:DescribeLaunchTemplates"
+          "ec2:DescribeLaunchTemplates",
+          "ec2:DescribeImages"
         ]
         Resource = "*"
       },
       {
         Effect = "Allow"
         Action = [
-          # NOTE: EC2
           #"ec2:DescribeAvailabilityZones",            # Required to build VPC
           "ec2:CreateVpc",                            # Required to build VPC
           "ec2:CreateTags",                           # Required to build VPC
@@ -139,7 +140,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:CreateRoute",                          # Required to build VPC
           "ec2:CreateNatGateway",                     # Required to build VPC
           "ec2:CreateNetworkAclEntry",                # Required to build VPC
-          "ec2:DescribeImages",                       # Required for EC2 instance related AWS Data Source
+          #"ec2:DescribeImages",                       # Required for EC2 instance related AWS Data Source
           "ec2:RunInstances",                         # Required to build EC2 instance
           "ec2:DescribeInstances",                    # Required to build EC2 instance
           "ec2:DescribeInstanceTypes",                # Required to build EC2 instance
