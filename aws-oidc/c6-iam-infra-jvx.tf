@@ -248,7 +248,14 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:RunInstances"
         ]
         Resource = "*"
-      },             
+      },
+      { # NOTE: Required by ASG to manage Launch Templates
+        Effect = "Allow"
+        Action = [
+          "iam:PassRole"
+        ]
+        Resource = "arn:aws:iam::${var.aws_account_id}:role/*"
+      },
       {
         Effect = "Allow"
         Action = [              
