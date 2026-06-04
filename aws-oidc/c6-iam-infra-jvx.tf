@@ -105,7 +105,9 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DescribeInternetGateways",
           "ec2:DescribeNetworkAcls",
           "ec2:DescribeLaunchTemplates",
-          "ec2:DescribeImages"
+          "ec2:DescribeImages",
+          "ec2:DescribeAddresses",
+          "ec2:DescribeSecurityGroupRules"
         ]
         Resource = "*"
       },
@@ -125,11 +127,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:CreateInternetGateway",                # Required to build VPC
           #"ec2:DescribeSecurityGroups",               # Required to build VPC
           #"ec2:DescribeRouteTables",                  # Required to build VPC
-          "ec2:DescribeSecurityGroupRules",           # Required to build VPC
+          #"ec2:DescribeSecurityGroupRules",           # Required to build VPC
           #"ec2:DescribeSubnets",                      # Required to build VPC
           #"ec2:DescribeInternetGateways",             # Required to build VPC
           #"ec2:DescribeNetworkAcls",                  # Required to build VPC
-          "ec2:DescribeAddresses",                    # Required to build VPC
+          #"ec2:DescribeAddresses",                    # Required to build VPC
           "ec2:DescribeAddressesAttribute",           # Required to build VPC
           "ec2:DescribeNatGateways",                  # Required to build VPC
           "ec2:AuthorizeSecurityGroupIngress",        # Required to build VPC
@@ -209,10 +211,18 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       },
       # NOTE: ELB
       {
+        Effect   = "Allow"
+        Action   = [
+          "elasticloadbalancing:DescribeLoadBalancers",
+          "elasticloadbalancing:DescribeTargetGroups"
+        ]
+        Resource = "*"
+      },        
+      {
         Effect = "Allow"
         Action = [             
-          "elasticloadbalancing:DescribeLoadBalancers",
-          "elasticloadbalancing:DescribeTargetGroups",
+          #"elasticloadbalancing:DescribeLoadBalancers",
+          #"elasticloadbalancing:DescribeTargetGroups",
           "elasticloadbalancing:CreateLoadBalancer",
           "elasticloadbalancing:CreateTargetGroup",
           "elasticloadbalancing:AddTags",
@@ -357,7 +367,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         ]
         Resource = [
           "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:db:*",
-          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:pg:*" # NOTE: Parameter Group
+          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:pg:*", # NOTE: Parameter Group
+          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:subgrp:*" # NOTE: Subnet Group
         ]
       },
       # NOTE: KMS for DB
@@ -373,9 +384,17 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       },
       # NOTE: SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
       {
+        Effect   = "Allow"
+        Action   = [
+          "secretsmanager:CreateSecret"
+        ]
+        Resource = "*"
+      },  
+
+      {
         Effect = "Allow"
         Action = [             
-          "secretsmanager:CreateSecret",
+          #"secretsmanager:CreateSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DeleteSecret",
           "secretsmanager:DescribeSecret",
