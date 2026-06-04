@@ -66,8 +66,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
+      # NOTE: Scoped S3 permissions for Terraform backend state.
       {
-        # NOTE: Scoped S3 permissions for Terraform backend state.
         Effect = "Allow"
         Action = [
           "s3:GetObject",
@@ -79,8 +79,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "arn:aws:s3:::rk-backend/*"
         ]
       },
+      # NOTE: Scoped S3 permissions to access artifacts bucket.
       {
-        # NOTE: Scoped S3 permissions to access artifacts bucket.
         Effect = "Allow"
         Action = [
           "s3:GetObject",
@@ -92,16 +92,29 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "arn:aws:s3:::rk-artifact/*"
         ]
       },
+      # NOTE: The following actions manage/create AWS resources (EC2, ELB, ASG, RDS, Route53, ACM, SNS).
       {
-        # NOTE: The following actions manage/create AWS resources (EC2, ELB, ASG, RDS, Route53, ACM, SNS).
-        # TODO: Many "Create"/"Delete" actions require Resource = "*"; narrow further if you can supply specific ARNs.
+        Effect   = "Allow"
+        Action   = [
+          "ec2:DescribeAvailabilityZones",
+          "ec2:DescribeVpcs",
+          "ec2:DescribeSubnets",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeRouteTables",
+          "ec2:DescribeInternetGateways",
+          "ec2:DescribeNetworkAcls",
+          "ec2:DescribeLaunchTemplates"
+        ]
+        Resource = "*"
+      },
+      {
         Effect = "Allow"
         Action = [
           # NOTE: EC2
-          "ec2:DescribeAvailabilityZones",            # Required to build VPC
+          #"ec2:DescribeAvailabilityZones",            # Required to build VPC
           "ec2:CreateVpc",                            # Required to build VPC
           "ec2:CreateTags",                           # Required to build VPC
-          "ec2:DescribeVpcs",                         # Required to build VPC
+          #"ec2:DescribeVpcs",                         # Required to build VPC
           "ec2:DescribeVpcAttribute",                 # Required to build VPC
           "ec2:DeleteVpc",                            # Required to build VPC
           "ec2:ModifyVpcAttribute",                   # Required to build VPC
@@ -109,12 +122,12 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:CreateSubnet",                         # Required to build VPC
           "ec2:CreateRouteTable",                     # Required to build VPC
           "ec2:CreateInternetGateway",                # Required to build VPC
-          "ec2:DescribeSecurityGroups",               # Required to build VPC
-          "ec2:DescribeRouteTables",                  # Required to build VPC
+          #"ec2:DescribeSecurityGroups",               # Required to build VPC
+          #"ec2:DescribeRouteTables",                  # Required to build VPC
           "ec2:DescribeSecurityGroupRules",           # Required to build VPC
-          "ec2:DescribeSubnets",                      # Required to build VPC
-          "ec2:DescribeInternetGateways",             # Required to build VPC
-          "ec2:DescribeNetworkAcls",                  # Required to build VPC
+          #"ec2:DescribeSubnets",                      # Required to build VPC
+          #"ec2:DescribeInternetGateways",             # Required to build VPC
+          #"ec2:DescribeNetworkAcls",                  # Required to build VPC
           "ec2:DescribeAddresses",                    # Required to build VPC
           "ec2:DescribeAddressesAttribute",           # Required to build VPC
           "ec2:DescribeNatGateways",                  # Required to build VPC
@@ -139,7 +152,7 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:AssociateAddress",                     # Required for Elastic IP
           "ec2:ReleaseAddress",                       # Required for Elastic IP
           "ec2:CreateLaunchTemplate",                 # Required to build Launch Template
-          "ec2:DescribeLaunchTemplates",              # Required to build Launch Template
+          #"ec2:DescribeLaunchTemplates",              # Required to build Launch Template
           "ec2:DescribeLaunchTemplateVersions",       # Required to build Launch Template
           "ec2:CreateLaunchTemplateVersion",          # Required to build Launch Template
           "ec2:ModifyLaunchTemplate",                 # Required to build Launch Template
@@ -170,10 +183,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*"
         ]
       },
+      # NOTE: Route53
       {
         Effect = "Allow"
         Action = [          
-          # NOTE: Route53
           "route53:ListHostedZones",
           "route53:GetHostedZone",
           "route53:ListTagsForResource",
@@ -185,10 +198,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: ELB
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: ELB
           "elasticloadbalancing:DescribeLoadBalancers",
           "elasticloadbalancing:DescribeTargetGroups",
           "elasticloadbalancing:CreateLoadBalancer",
@@ -216,10 +229,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: ASG
       {
         Effect = "Allow"
         Action = [              
-          # NOTE: ASG
           "autoscaling:CreateAutoScalingGroup",
           "autoscaling:DescribeScalingActivities",
           "autoscaling:DescribeAutoScalingGroups",
@@ -244,10 +257,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: IAM
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: IAM
           "iam:CreateRole",                # Required to create IAM roles for SSM access 
           "iam:GetRole",                   # Required to create IAM roles for SSM access
           "iam:ListRolePolicies",          # Required to create IAM roles for SSM access
@@ -280,10 +293,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: IAM
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: ACM
           "acm:RequestCertificate",
           "acm:DescribeCertificate",
           "acm:ListTagsForCertificate",
@@ -293,10 +306,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: SNS
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: SNS
           "SNS:CreateTopic",
           "SNS:SetTopicAttributes",
           "SNS:GetTopicAttributes",
@@ -310,10 +323,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: RDS
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: RDS
           "rds:CreateDBSubnetGroup",
           "rds:AddTagsToResource",
           "rds:DescribeDBSubnetGroups",
@@ -332,10 +345,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: KMS for DB
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: KMS for DB
           "kms:DescribeKey",
           "kms:CreateGrant"
         ]
@@ -343,10 +356,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "*"
         ]
       },
+      # NOTE: SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
       {
         Effect = "Allow"
         Action = [             
-          # NOTE: SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
           "secretsmanager:CreateSecret",
           "secretsmanager:GetSecretValue",
           "secretsmanager:DeleteSecret",
