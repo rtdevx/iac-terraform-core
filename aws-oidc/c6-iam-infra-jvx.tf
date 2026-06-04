@@ -104,9 +104,9 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
       {
         Effect   = "Allow"
         Action   = [
-          "ec2:DisassociateAddress" # NOTE: Required to destroy EIP
+          "ec2:DisassociateAddress" 
         ]
-        Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:*/*"
+        Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:*/*" # NOTE: Required to destroy EIP
       },      
       {
         Effect = "Allow"
@@ -283,7 +283,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Resource = [
           "arn:aws:iam::${var.aws_account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
           "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/*",
-          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:scalingPolicy:*:autoScalingGroupName/*:policyName/*"
+          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:scalingPolicy:*:autoScalingGroupName/*:policyName/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*" # NOTE: ASG (autoscaling:CreateAutoScalingGroup) requires access to Launch Template
         ]
       },
       # NOTE: IAM
