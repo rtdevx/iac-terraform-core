@@ -106,7 +106,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Action   = [
           "ec2:DisassociateAddress" 
         ]
-        Resource = "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:*/*" # NOTE: Required to destroy EIP
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:ec2:${region}:${var.aws_account_id}:*/*" # NOTE: Required to destroy EIP
+          ]
+        ])
       },
       { # NOTE: Required For ASG to create / access Launch Template
         Effect = "Allow"
@@ -158,19 +162,24 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ec2:DetachInternetGateway",                # Required to perform DESTROY
           "ec2:DeleteInternetGateway"                 # Required to perform DESTROY
         ]
-        Resource = [
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:vpc/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:security-group/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:security-group-rule/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:subnet/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:route-table/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:internet-gateway/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:network-acl/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:elastic-ip/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:natgateway/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [
+            "arn:aws:ec2:${region}:${var.aws_account_id}:*"
+            /* 
+            "arn:aws:ec2:${region}:${var.aws_account_id}:vpc/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:security-group/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:security-group-rule/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:subnet/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:route-table/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:internet-gateway/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:network-acl/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:elastic-ip/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:launch-template/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:natgateway/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:instance/*"
+            */
+          ]
+        ])
       },
       # NOTE: Route53
       {
@@ -217,16 +226,18 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "elasticloadbalancing:DeleteRule",
           "elasticloadbalancing:DeleteLoadBalancer", # Required to delete LB
           "elasticloadbalancing:DeleteTargetGroup",  # Required to delete LB
-          "elasticloadbalancing:ModifyTargetGroup",  # Required to Modify Target Group only. TO BE COMMENTED OUT.
-          "elasticloadbalancing:ModifyListener",     # Required to Modify Target Group only. TO BE COMMENTED OUT.
-          "elasticloadbalancing:ModifyRule"          # Required to Modify Target Group only. TO BE COMMENTED OUT.
+          "elasticloadbalancing:ModifyTargetGroup",  # Required to Modify Target Group.
+          "elasticloadbalancing:ModifyListener",     # Required to Modify Target Group.
+          "elasticloadbalancing:ModifyRule"          # Required to Modify Target Group.
         ]
-        Resource = [
-          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:loadbalancer/app/*/*",
-          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:listener/app/*/*/*",
-          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:listener-rule/app/*/*/*/*",
-          "arn:aws:elasticloadbalancing:${var.aws_region}:${var.aws_account_id}:targetgroup/*/*"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:elasticloadbalancing:${region}:${var.aws_account_id}:loadbalancer/app/*/*",
+            "arn:aws:elasticloadbalancing:${region}:${var.aws_account_id}:listener/app/*/*/*",
+            "arn:aws:elasticloadbalancing:${region}:${var.aws_account_id}:listener-rule/app/*/*/*/*",
+            "arn:aws:elasticloadbalancing:${region}:${var.aws_account_id}:targetgroup/*/*"
+          ]
+        ])
       },
       # NOTE: ASG
       {
@@ -274,12 +285,14 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "autoscaling:DetachLoadBalancerTargetGroups",
           "autoscaling:StartInstanceRefresh" 
         ]
-        Resource = [
-          "arn:aws:iam::${var.aws_account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
-          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/*",
-          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:scalingPolicy:*:autoScalingGroupName/*:policyName/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*" # NOTE: ASG (autoscaling:CreateAutoScalingGroup) requires access to Launch Template
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:iam::${var.aws_account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
+            "arn:aws:autoscaling:${region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/*",
+            "arn:aws:autoscaling:${region}:${var.aws_account_id}:scalingPolicy:*:autoScalingGroupName/*:policyName/*",
+            "arn:aws:ec2:${region}:${var.aws_account_id}:launch-template/*" # NOTE: ASG (autoscaling:CreateAutoScalingGroup) requires access to Launch Template
+          ]
+        ])
       },
       # NOTE: IAM
       {
@@ -333,9 +346,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "acm:ListTagsForCertificate",
           "acm:DeleteCertificate"
         ]
-        Resource = [
-          "arn:aws:acm:${var.aws_region}:${var.aws_account_id}:certificate/*"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:acm:${region}:${var.aws_account_id}:certificate/*"
+          ]  
+        ])
       },
       # NOTE: SNS
       {
@@ -350,9 +365,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "SNS:GetSubscriptionAttributes",
           "SNS:Unsubscribe"
         ]
-        Resource = [
-          "arn:aws:sns:${var.aws_region}:${var.aws_account_id}:*"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:sns:${region}:${var.aws_account_id}:*"
+          ]
+        ])
       },
       # NOTE: RDS
       {
@@ -378,11 +395,13 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "rds:CreateDBInstance",
           "rds:DeleteDBInstance" # ! Delete Instance
         ]
-        Resource = [
-          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:db:*",
-          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:pg:*", # NOTE: Parameter Group
-          "arn:aws:rds:${var.aws_region}:${var.aws_account_id}:subgrp:*" # NOTE: Subnet Group
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:rds:${region}:${var.aws_account_id}:db:*",
+            "arn:aws:rds:${region}:${var.aws_account_id}:pg:*", # NOTE: Parameter Group
+            "arn:aws:rds:${region}:${var.aws_account_id}:subgrp:*" # NOTE: Subnet Group
+          ]
+        ])
       },
       # NOTE: KMS for DB
       {
@@ -397,9 +416,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Action = [             
           "kms:CreateGrant"
         ]
-        Resource = [
-          "arn:aws:kms:${var.aws_region}:${var.aws_account_id}:key/*"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:kms:${region}:${var.aws_account_id}:key/*"
+          ]
+        ])
       },
       # NOTE: SSM Secrets manager for DB (db secret for applications) AND EC2 Launch Template (jvx_TLS_Keystore) for internal TLS.
       {
@@ -414,9 +435,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Action   = [
           "secretsmanager:CreateSecret"
         ]
-        Resource = [
-          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:secretsmanager:${region}:${var.aws_account_id}:secret:*"
+          ]
+        ])
       },
       {
         Effect = "Allow"
@@ -432,11 +455,13 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "secretsmanager:GetResourcePolicy",
           "secretsmanager:PutSecretValue"
         ]
-        Resource = [
-          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:rds!db-*",
-          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*", # NOTE: Required for "secretsmanager:GetResourcePolicy"
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*" # NOTE: EC2 Instances need access to secrets for TLS Self-Signed cert generation
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:secretsmanager:${region}:${var.aws_account_id}:secret:rds!db-*",
+            "arn:aws:secretsmanager:${region}:${var.aws_account_id}:secret:*", # NOTE: Required for "secretsmanager:GetResourcePolicy"
+            "arn:aws:ec2:${region}:${var.aws_account_id}:instance/*" # NOTE: EC2 Instances need access to secrets for TLS Self-Signed cert generation
+          ]
+        ])
       },
       # NOTE: EC2 instances require SSM Parameter for the deployment
       {
@@ -446,7 +471,11 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "ssm:GetParameters",
           "ssm:GetParameterHistory"
         ]
-        Resource = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/jvx/*"
+        Resource = flatten([
+          for region in var.aws_regions : [ 
+            "arn:aws:ssm:${region}:${var.aws_account_id}:parameter/jvx/*"
+          ]
+        ])
       }
     ]
   })

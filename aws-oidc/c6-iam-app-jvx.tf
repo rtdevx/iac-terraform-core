@@ -79,10 +79,12 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "ssm:GetParameter"
         ] 
 
-        Resource = [
-          "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/jvx/version",
-          "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/jvx/version_previous"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [
+            "arn:aws:ssm:${region}:${var.aws_account_id}:parameter/jvx/version",
+            "arn:aws:ssm:${region}:${var.aws_account_id}:parameter/jvx/version_previous"
+          ]
+        ])
       },
       # NOTE: Allow GitHub Actions to autoscaling:StartInstanceRefresh in app-aws repository
       {
@@ -91,11 +93,13 @@ resource "aws_iam_role_policy" "oidc_policy_aws_jvx" {
           "autoscaling:StartInstanceRefresh"
         ]
 
-        Resource = [
-          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-dev-jvx-asg",
-          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-stag-jvx-asg",
-          "arn:aws:autoscaling:${var.aws_region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-prod-jvx-asg"
-        ]
+        Resource = flatten([
+          for region in var.aws_regions : [         
+            "arn:aws:autoscaling:${region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-dev-jvx-asg",
+            "arn:aws:autoscaling:${region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-stag-jvx-asg",
+            "arn:aws:autoscaling:${region}:${var.aws_account_id}:autoScalingGroup:*:autoScalingGroupName/operations-prod-jvx-asg"
+          ]
+        ])
       },
       {
         Effect = "Allow",

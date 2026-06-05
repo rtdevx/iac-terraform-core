@@ -1,7 +1,12 @@
 # Input variable definitions
-variable "aws_region" {
-  description = "AWS Region"
-  type        = string
+#variable "aws_region" {
+#  description = "AWS Region"
+#  type        = string
+#}
+
+variable "aws_regions" {
+  type    = list(string)
+  default = ["eu-west-1", "eu-west-2", "eu-central-1"]
 }
 
 variable "business_division" {
