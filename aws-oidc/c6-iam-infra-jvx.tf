@@ -414,9 +414,10 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
         Action   = [
           "secretsmanager:CreateSecret"
         ]
-        Resource = "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*"
-      },  
-
+        Resource = [ 
+          "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*"
+        ]
+      },
       {
         Effect = "Allow"
         Action = [             
@@ -435,6 +436,16 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:rds!db-*",
           "arn:aws:secretsmanager:${var.aws_region}:${var.aws_account_id}:secret:*" # NOTE: Required for "secretsmanager:GetResourcePolicy"
         ]
+      },
+      # NOTE: EC2 instances require SSM Parameter for the deployment
+      {
+        Effect = "Allow"
+        Action = [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:GetParameterHistory"
+        ]
+        Resource = "arn:aws:ssm:${var.aws_region}:${var.aws_account_id}:parameter/jvx/*"
       }
     ]
   })
