@@ -168,7 +168,8 @@ resource "aws_iam_role_policy" "oidc_policy_infra_jvx" {
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:network-acl/*",
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:elastic-ip/*",
           "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:launch-template/*",
-          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:natgateway/*"
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:natgateway/*",
+          "arn:aws:ec2:${var.aws_region}:${var.aws_account_id}:instance/*"
         ]
       },
       # NOTE: Route53
