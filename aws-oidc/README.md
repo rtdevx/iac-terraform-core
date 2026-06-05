@@ -71,7 +71,7 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_aws_account_id"></a> [aws\_account\_id](#input\_aws\_account\_id) | AWS Account ID | `string` | n/a | yes |
-| <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | AWS Region | `string` | n/a | yes |
+| <a name="input_aws_regions"></a> [aws\_regions](#input\_aws\_regions) | n/a | `list(string)` | <pre>[<br/>  "eu-west-1",<br/>  "eu-west-2",<br/>  "eu-central-1"<br/>]</pre> | no |
 | <a name="input_business_division"></a> [business\_division](#input\_business\_division) | Business Division | `string` | n/a | yes |
 | <a name="input_github_org"></a> [github\_org](#input\_github\_org) | GitHub Organization | `string` | n/a | yes |
 | <a name="input_github_org_aws_apps"></a> [github\_org\_aws\_apps](#input\_github\_org\_aws\_apps) | GitHub Organization - rtdevx-aws-apps | `string` | n/a | yes |
